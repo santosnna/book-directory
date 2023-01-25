@@ -30,6 +30,11 @@ app.post("/new", async (req, res) => {
   res.redirect(`/book/${book._id}`);
 });
 
+app.get("/book/:id", async (req, res) => {
+  const book = await Book.findById(req.params.id);
+  res.send(book);
+});
+
 app.get("/update", (req, res) => {}); // Will contain a form to update fields
 
 app.put("/update", (req, res) => {}); // Will handle register update
@@ -37,10 +42,5 @@ app.put("/update", (req, res) => {}); // Will handle register update
 app.get("/delete", (req, res) => {}); // Will contain a page to certify the exclusion
 
 app.delete("/delete", (req, res) => {}); // Will handle register deletion
-
-app.get("/book/:id", async (req, res) => {
-  const book = await Book.findById(req.params.id);
-  res.send(book);
-});
 
 app.listen(3000, () => console.log("Listening on port 3000"));
