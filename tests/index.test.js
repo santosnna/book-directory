@@ -1,6 +1,6 @@
 const TestBook = require("./models/books");
 const helper = require("./helper");
-const { mockBook } = require("./helper");
+let { mockBook } = require("./helper");
 
 describe("CRUD Test", () => {
   beforeAll(async () => {
@@ -15,20 +15,25 @@ describe("CRUD Test", () => {
   });
 
   it("should insert a book into Book collection", async () => {
-    let { mockBook } = helper;
-
     const book = new TestBook(mockBook);
-    const verification = await book.save();
+    const createdBook = await book.save();
     mockBook._id = book._id;
-
-    expect(verification).toBeTruthy();
+    expect(createdBook).toBeTruthy();
   });
 
   it("should find a book from Book collection", async () => {
     const insertedBook = await TestBook.findById(mockBook._id);
-    console.log("Mock book", mockBook, typeof mockBook);
-    console.log("Livro achou", insertedBook, typeof insertedBook);
     expect(insertedBook).toMatchObject(mockBook);
+  });
+
+  it("should find a Book in collection and update it", async () => {
+    mockBook.subject = "Rocket Science";
+    const updatedBook = await TestBook.findByIdAndUpdate(
+      mockBook._id,
+      { ...mockBook },
+      { new: true }
+    );
+    expect(updatedBook).toMatchObject(mockBook);
   });
 });
 
@@ -46,12 +51,9 @@ describe("Consistency Test", () => {
   });
 
   it("should insert a book into Book collection", async () => {
-    let { mockBook } = helper;
-
     const book = new TestBook(mockBook);
     await book.save();
     mockBook._id = book._id;
-
     const insertedBook = await TestBook.findById(book._id);
     expect(insertedBook.toJSON()).toEqual(mockBook);
   });

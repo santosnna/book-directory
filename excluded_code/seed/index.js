@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Book = require("../models/books");
+const Book = require("../../models/books");
 const booksList = require("./books-data.json");
 
 mongoose.connect("mongodb://localhost:27017/book-directory", {

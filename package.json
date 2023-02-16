@@ -2,16 +2,18 @@
   "name": "book-directory",
   "version": "1.0.0",
   "description": "A simple CRUD for a book management with endpoints for each function.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon ./index.js",
+    "start": "nodemon ./app.js",
     "test": "jest"
   },
   "author": "Nathan Santos",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.1",
+    "ejs": "^3.1.8",
     "express": "^4.18.2",
+    "method-override": "^3.0.0",
     "mongodb": "^4.12.0",
     "mongoose": "^6.7.2"
   },

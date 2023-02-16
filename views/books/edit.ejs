@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <h1>EDIT</h1>
+    <header>
+      <a href="/books">Back to index</a>
+    </header>
+    <form action="/books/<%= book._id %>?_method=PATCH" method="POST">
+      <div>
+        <label for="title">Title: </label>
+        <input
+          type="text"
+          id="title"
+          name="book[title]"
+          placeholder="e.g.: Wizard Judo"
+          value="<%= book.title %>"
+        />
+      </div>
+      <div>
+        <label for="author">Author: </label>
+        <input
+          type="text"
+          id="author"
+          name="book[author]"
+          placeholder="e.g.: Gigono Kamus"
+          value="<%= book.author %>"
+        />
+      </div>
+      <div>
+        <label for="isbn">isbn: </label>
+        <input
+          type="text"
+          id="isbn"
+          name="book[isbn]"
+          placeholder="e.g.: 123456789-x"
+          value="<%= book.isbn %>"
+        />
+      </div>
+      <div>
+        <label for="subject">Subject: </label>
+        <input
+          type="text"
+          id="subject"
+          name="book[subject]"
+          placeholder="e.g.: Wizard Sports"
+          value="<%= book.subject %>"
+        />
+      </div>
+      <div>
+        <label for="publishing_date">Publishing Date: </label
+        ><input
+          type="text"
+          id="publishing_date"
+          name="book[publishingDate]"
+          placeholder="e.g.: 13/08/1882"
+          value="<%= book.publishingDate %>"
+          readonly
+        />
+      </div>
+      <button>Done</button>
+    </form>
+  </body>
+</html>

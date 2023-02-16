@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <header>
+      <a href="/books">Back to index</a>
+    </header>
+    <h1>SHOW page</h1>
+    <div>
+      <p><%= book.title %></p>
+      <p><%= book.author %></p>
+    </div>
+    <div>
+      <form action="" id="action" method="GET">
+        <button>Delete</button>
+        <button>Edit</button>
+      </form>
+    </div>
+  </body>
+
+  <!-- 
+    The snippet below forwards the user to the desired page.
+    Should be reviewed for "more elegant" solutions.
+   -->
+  <script>
+    const form = document.querySelector("#action");
+
+    form.addEventListener("click", (e) => {
+      const button = e.srcElement.innerText;
+      if (button === "Delete") {
+        form.setAttribute("action", "/books/<%= book._id %>/delete");
+      } else if (button === "Edit") {
+        form.setAttribute("action", "/books/<%= book._id %>/edit");
+      }
+    });
+  </script>
+</html>
