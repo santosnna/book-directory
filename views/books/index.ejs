@@ -1,22 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= pageTitle %></title>
-  </head>
-  <body>
-    <h1>This is the INDEX page</h1>
-    <a href="/books/new">New Book</a>
-    <p>Total # books: <%= booksList.length %></p>
-    <ul>
-      <% for(let book of booksList) { %>
-      <li>
-        <a href="/books/<%= book._id%>"><p><%= book.title %></p></a>
-        <p><%= book.author %></p>
-      </li>
-      <% } %>
-    </ul>
-  </body>
-</html>
+<% layout('layouts/boilerplate') %>
+<h1>All Books</h1>
+<p>Total # books: <%= booksList.length %></p>
+
+<div class="row">
+	<% for(let book of booksList) { %>
+	<div class="col-md-3">
+		<div class="card mb-3">
+			<!-- <img src="..." class="card-img-top" alt="..." /> -->
+			<div class="card-body">
+				<h5 class="card-title"><%= book.title %></h5>
+				<h6 class="card-subtitle mb-2 text-muted"><%= book.author %></h6>
+				<div class="text-center">
+					<a href="/books/<%= book._id%>" class="btn btn-primary">More info</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<% } %>
+</div>
