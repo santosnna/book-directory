@@ -1,13 +1,17 @@
-<h1 align="center">Welcome to Book Directory 👋</h1>
 <p>
   <a href="./LICENSE" target="_blank">
     <img alt="License: Apache license" src="https://img.shields.io/badge/License-Apache license-yellow.svg" />
   </a>
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/santosnna/book-directory">
 </p>
 
-> A simple CRUD for books management.
+<h1 align="center">Book Directory</h1>
 
-### 🏠 [Homepage](https://github.com/santosnna/book-directory)
+<p>
+ A book directory for organized readers. This project was developed mainly for studying purposes. It was built on Node.js and Express.js, and uses MongoDB to store the data.
+
+ It can be used as a directory or integrated in larger programs (e.g: sales or a reference-maker).
+</p>
 
 ## Install
 
@@ -18,8 +22,9 @@ npm install
 ## Usage
 
 ```sh
-npm run start
+npm start
 ```
+> Then access localhost:3000 or localhost:3000/books
 
 ## Run tests
 
