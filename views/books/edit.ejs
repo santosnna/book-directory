@@ -2,7 +2,12 @@
 <div class="row">
 	<div class="col-6 offset-3">
 		<h1>Edit Book</h1>
-		<form action="/books/<%= book._id %>?_method=PATCH" method="POST">
+		<form
+			action="/books/<%= book._id %>?_method=PATCH"
+			method="POST"
+			class="validated-form"
+			novalidate
+		>
 			<!--
         /**
          * The inputs below will add a property to an object called "book" 
@@ -16,8 +21,10 @@
 					id="title"
 					name="book[title]"
 					placeholder="Wizard Judo"
+					required
 					value="<%= book.title %>"
 				/>
+				<div class="valid-feedback">This is a great book!</div>
 			</div>
 			<div class="mb-3">
 				<label class="form-label" for="author">Author</label>
@@ -27,8 +34,10 @@
 					id="author"
 					name="book[author]"
 					placeholder="Gigono Kamus"
+					required
 					value="<%= book.author %>"
 				/>
+				<div class="valid-feedback">This guy is a genius!</div>
 			</div>
 			<div class="mb-3">
 				<label class="form-label" for="subject">Subject</label>
@@ -38,8 +47,10 @@
 					id="subject"
 					name="book[subject]"
 					placeholder="Wizard Sports"
+					required
 					value="<%= book.subject %>"
 				/>
+				<div class="valid-feedback">My favourite topic!</div>
 			</div>
 			<div class="mb-3">
 				<label class="form-label" for="isbn">ISBN</label>
@@ -49,8 +60,12 @@
 					id="isbn"
 					name="book[isbn]"
 					placeholder="123456789-x"
+					minlength="9"
+					maxlength="11"
+					required
 					value="<%= book.isbn %>"
 				/>
+				<div class="valid-feedback">Looks good!</div>
 			</div>
 			<div class="mb-3">
 				<label class="form-label" for="publishingDate">Publishing Date</label>
@@ -60,9 +75,11 @@
 					id="publishing_date"
 					name="book[publishingDate]"
 					placeholder="13/08/1882"
-					value="<%= book.publishingDate %>"
+					disabled
 					readonly
+					value="<%= book.publishingDate %>"
 				/>
+				<div class="valid-feedback">I can't believe it's been that long!</div>
 			</div>
 			<div class="mb-3">
 				<button class="btn btn-success">Save</button>

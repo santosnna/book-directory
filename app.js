@@ -7,6 +7,9 @@ const mongoose = require("mongoose");
 const path = require("path");
 
 const Book = require("./models/books");
+const ExpressError = require("./utils/ExpressError");
+const catchAsync = require("./utils/catchAsync");
+const { bookValidationSchema } = require("./validationSchema");
 
 const app = express();
 
@@ -30,15 +33,29 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+/** FUNCTIONS */
+const validateBook = (req, res, next) => {
+	const { error } = bookValidationSchema.validate(req.body);
+	if (error) {
+		const msg = error.details.map((el) => el.message).join(",");
+		throw new ExpressError(msg, 400);
+	} else {
+		next();
+	}
+};
+
 /** ENDPOINTS */
 app.get("/", (req, res) => {
 	res.render("home");
 });
 
-app.get("/books", async (req, res) => {
-	const booksList = await Book.find({});
-	res.render("books/index", { pageTitle: "Index", booksList });
-});
+app.get(
+	"/books",
+	catchAsync(async (req, res) => {
+		const booksList = await Book.find({});
+		res.render("books/index", { pageTitle: "Index", booksList });
+	})
+);
 
 app.get("/books/new", (req, res) => {
 	res.render("books/new", { pageTitle: "New book" });
@@ -47,34 +64,40 @@ app.get("/books/new", (req, res) => {
 /**
  * 'book' is an object passed through the req.body object
  */
-app.post("/books", async (req, res) => {
-	const book = new Book(req.body.book);
-	try {
+app.post(
+	"/books",
+	validateBook,
+	catchAsync(async (req, res) => {
+		const book = new Book(req.body.book);
 		await book.save();
 		res.redirect(`/books/${book._id}`);
-	} catch (error) {
-		console.error("There was an error: ", error);
-		// Add error handling in the future
-		// Redirect to "/new" with a message indicating there was an error (maybe with next()?)
-	}
-});
+	})
+);
 
-app.get("/books/:id", async (req, res) => {
-	const { id } = req.params;
-	const book = await Book.findById(id);
-	res.render("books/show", { pageTitle: book.title, book });
-});
+app.get(
+	"/books/:id",
+	catchAsync(async (req, res) => {
+		const { id } = req.params;
+		const book = await Book.findById(id);
+		res.render("books/show", { pageTitle: book.title, book });
+	})
+);
 
-app.get("/books/:id/edit", async (req, res) => {
-	const { id } = req.params;
-	const book = await Book.findById(id);
-	res.render("books/edit", { pageTitle: book.title, book });
-});
+app.get(
+	"/books/:id/edit",
+	catchAsync(async (req, res) => {
+		const { id } = req.params;
+		const book = await Book.findById(id);
+		res.render("books/edit", { pageTitle: book.title, book });
+	})
+);
 
-app.patch("/books/:id", async (req, res) => {
-	const { id } = req.params;
-	const updatedBook = req.body.book;
-	try {
+app.patch(
+	"/books/:id",
+	validateBook,
+	catchAsync(async (req, res) => {
+		const { id } = req.params;
+		const updatedBook = req.body.book;
 		/** The spreaded object "updatedBook" is like a "copy" and will override only the modified fields  */
 		const book = await Book.findByIdAndUpdate(
 			id,
@@ -82,29 +105,36 @@ app.patch("/books/:id", async (req, res) => {
 			{ new: true }
 		);
 		res.redirect(`/books/${id}`);
-	} catch (error) {
-		console.error("There was an error: ", error);
-		// Add error handling in the future
-		// Redirect to "/new" with a message indicating there was an error (maybe with next()?)
-	}
-});
+	})
+);
 
-app.get("/books/:id/delete", async (req, res) => {
-	const { id } = req.params;
-	const book = await Book.findById(id);
-	res.render("books/delete", { pageTitle: book.title, book });
-});
+app.get(
+	"/books/:id/delete",
+	catchAsync(async (req, res) => {
+		const { id } = req.params;
+		const book = await Book.findById(id);
+		res.render("books/delete", { pageTitle: book.title, book });
+	})
+);
 
-app.delete("/books/:id", async (req, res) => {
-	const { id } = req.params;
-	try {
+app.delete(
+	"/books/:id",
+	catchAsync(async (req, res) => {
+		const { id } = req.params;
 		await Book.findByIdAndDelete(id);
 		res.redirect("/books");
-	} catch (error) {
-		console.error("There was an error: ", error);
-		// Add error handling in the future
-		// Redirect to "/new" with a message indicating there was an error (maybe with next()?)
-	}
+	})
+);
+
+app.all("*", (req, res, next) => {
+	next(new ExpressError("Page Not Found", 404));
+});
+
+app.use((err, req, res, next) => {
+	const { statusCode = 500 } = err;
+	if (!err.message) err.message = "Oh no, something went wrong... :(";
+	res.status(statusCode).render("error", { pageTitle: err.message, err });
+	next(err);
 });
 
 /** SERVER */
