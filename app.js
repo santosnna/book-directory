@@ -34,6 +34,21 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 /** FUNCTIONS */
+const queryBuilder = (queryObject) => {
+	const { title, author, subject, isbn } = queryObject;
+	if (title || author || subject || isbn) {
+		const query = [];
+		if (title)
+			query.push({ title: { $regex: new RegExp(title), $options: "i" } });
+		if (author)
+			query.push({ author: { $regex: new RegExp(author), $options: "i" } });
+		if (subject)
+			query.push({ subject: { $regex: new RegExp(subject), $options: "i" } });
+		if (isbn) query.push({ isbn: { $regex: new RegExp(isbn), $options: "i" } });
+		return query;
+	}
+};
+
 const validateBook = (req, res, next) => {
 	const { error } = bookValidationSchema.validate(req.body);
 	if (error) {
@@ -52,8 +67,16 @@ app.get("/", (req, res) => {
 app.get(
 	"/books",
 	catchAsync(async (req, res) => {
-		const booksList = await Book.find({});
-		res.render("books/index", { pageTitle: "Index", booksList });
+		const query = queryBuilder(req.query);
+		if (query) {
+			const booksList = await Book.find({
+				$or: [...query],
+			});
+			res.render("books/index", { pageTitle: "Index", booksList });
+		} else {
+			const booksList = await Book.find({});
+			res.render("books/index", { pageTitle: "Index", booksList });
+		}
 	})
 );
 

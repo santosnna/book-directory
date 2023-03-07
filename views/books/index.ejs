@@ -2,11 +2,85 @@
 <h1>All Books</h1>
 <p>Total # books: <%= booksList.length %></p>
 
+<form
+	action="/books"
+	method="GET"
+	class="row row-cols-lg-auto my-3 g-3 align-items-center border"
+>
+	<div class="col-12 mb-3">
+		<label for="title" class="visually-hidden">Title</label>
+		<div class="input-group">
+			<input
+				type="text"
+				class="form-control"
+				id="title"
+				name="title"
+				placeholder="Search title"
+			/>
+		</div>
+	</div>
+
+	<div class="col-12 mb-3">
+		<label for="author" class="visually-hidden">Author</label>
+		<div class="input-group">
+			<input
+				type="text"
+				class="form-control"
+				id="author"
+				name="author"
+				placeholder="Search author"
+			/>
+		</div>
+	</div>
+
+	<div class="col-12 mb-3">
+		<label for="subject" class="visually-hidden">Subject</label>
+		<div class="input-group">
+			<input
+				type="text"
+				class="form-control"
+				id="subject"
+				name="subject"
+				placeholder="Search subject"
+			/>
+		</div>
+	</div>
+	<div class="col-12 mb-3">
+		<label for="isbn" class="visually-hidden">isbn</label>
+		<div class="input-group">
+			<input
+				type="text"
+				class="form-control"
+				id="isbn"
+				name="isbn"
+				placeholder="Search isbn"
+			/>
+		</div>
+	</div>
+
+	<div class="col-12 mb-3">
+		<button type="submit" class="btn btn-primary">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="16"
+				height="16"
+				fill="currentColor"
+				class="bi bi-search"
+				viewBox="0 0 16 16"
+			>
+				<path
+					d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+				/>
+			</svg>
+			Search
+		</button>
+	</div>
+</form>
+
 <div class="row">
 	<% for(let book of booksList) { %>
 	<div class="col-md-3">
 		<div class="card mb-3">
-			<!-- <img src="..." class="card-img-top" alt="..." /> -->
 			<div class="card-body">
 				<h5 class="card-title"><%= book.title %></h5>
 				<h6 class="card-subtitle mb-2 text-muted"><%= book.author %></h6>
