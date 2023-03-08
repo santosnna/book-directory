@@ -51,16 +51,13 @@ npm start
 
 <ul>
   <li>
-    Main route: 
-    <a href="localhost:3000/" target="_blank">localhost:3000/</a>
+    Main route: localhost:3000/
   </li>
   <li>
-    Books route: 
-    <a href="localhost:3000/books/" target="_blank">localhost:3000/books</a>
+    Books route: localhost:3000/books/
   </li>
   <li>
-    New Book route: 
-    <a href="localhost:3000/books/new" target="_blank">localhost:3000/books/new</a>
+    New Book route: localhost:3000/books/new
   </li>
 </ul>
 
@@ -109,11 +106,6 @@ This project is [Apache license](./LICENSE) licensed.
 
 
 <!--
-
-- Main route: [localhost:3000/](localhost:3000/)
-- Books route: [localhost:3000/books/](localhost:3000/books/)
-- New Book route: [localhost:3000/books/new](localhost:3000/books/new)
-
 ## Run tests
 
 ```sh
